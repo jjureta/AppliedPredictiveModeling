@@ -17,3 +17,14 @@ segData <- segData[, -(1:3)]
 
 statusColNum <- grep("Status", names(segData))
 segData <- segData[, -statusColNum]
+
+print(ggplot(data=segData, aes(segData$AreaCh1)) + geom_histogram())
+
+skewValues <- apply(segData, 2, skewness)
+
+trans <- preProcess(segData, 
+                    method = c("BoxCox", "center", "scale"))
+
+transformed <- predict(trans, segData)
+
+print(ggplot(data=transformed, aes(transformed$AreaCh1)) + geom_histogram())
