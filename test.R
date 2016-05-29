@@ -14,3 +14,6 @@ case <- segData$Case
 
 # remove the columns
 segData <- segData[, -(1:3)]
+
+statusColNum <- grep("Status", names(segData))
+segData <- segData[, -statusColNum]
