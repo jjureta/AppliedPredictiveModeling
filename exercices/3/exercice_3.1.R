@@ -8,16 +8,18 @@ data(Glass)
 glassSubset <- subset(Glass, select = -Type)
 skewValues <- apply(glassSubset, 2, skewness)
 
-glassMelt <- melt(glassSubset)
+# Transform to long format
+glassMelted <- melt(glassSubset)
 
-plot1 <- ggplot(data=glassMelt, aes(glassMelt$value)) + 
-  geom_freqpoly(bins = 200) +
-  facet_wrap(~variable, scales = "free") 
+plot1 <- ggplot(data=glassMelted, aes(glassMelted$value)) + 
+  geom_density() +
+  facet_wrap(~variable, scales = "free") +
+  xlab("predictor")
 
 print(plot1)
 
 #plot2 <- densityplot(~value|variable,
-#            data = glassMelt,
+#            data = glassMelted,
 #            ## Adjust each axis so that the measurement scale is
 #            ## different for each panel
 #            scales = list(x = list(relation = "free"),
