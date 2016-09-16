@@ -12,6 +12,7 @@ skewValues <- apply(glassSubset, 2, skewness)
 # Transform to long format
 glassMelted <- melt(glassSubset)
 
+# Plot predictor's density function
 plot1 <- ggplot(data=glassMelted, aes(glassMelted$value)) + 
   geom_density() +
   facet_wrap(~variable, scales = "free") +
@@ -31,3 +32,14 @@ print(plot1)
 #            pch = "|",
 #            xlab = "Predictor")
 #print(plot2)
+
+# Verify the correlation between predictors
+correlations <- cor(glassSubset)
+plotcorr <- corrplot(correlations, 
+                     order = "hclust",
+                     method = "pie",
+                     addCoefasPercent = TRUE)
+print(plotcorr)
+
+highCorr <- findCorrelation( correlations, cutoff = 0.75)
+filterredSegdata <- glassSubset[, -highCorr]
