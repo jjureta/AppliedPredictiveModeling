@@ -1,0 +1,74 @@
+---
+title: "Applied Predictive Modeling: Exercises"
+author: "Josip Jureta"
+date: "September 18, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(mlbench)
+library(e1071)
+library(reshape2)
+library(ggplot2)
+library(corrplot)
+```
+
+# Chapter 3 Data Pre-processong
+
+## Exercise 3.1
+
+The UC Irvine Machine Learning Repository contains a data set related to glass identification. The data consist of 214 glass samples labeled as one of seven class categories. There are nine predictors, including the refractive index and percentages of eight elements: Na, Mg, Al, Si, K, Ca, Ba, and Fe.
+
+The data can be accessed via:
+
+```{r data}
+data(Glass)
+str(Glass)
+```
+
+* (a) Using visualizations, explore the predictor variables to understand their distributions as well as the relationships between predictors.
+
+The distributions:
+
+```{r distribution}
+# Remove Type column
+glassSubset <- subset(Glass, select = -Type)
+
+# Transform to long format
+glassMelted <- melt(glassSubset)
+
+ggplot(data=glassMelted, aes(glassMelted$value)) + 
+  geom_density() +
+  facet_wrap(~variable, scales = "free") +
+  xlab("predictor")
+```
+
+The relation between predictors:
+
+```{r correlations}
+correlations <- cor(glassSubset)
+corrplot(correlations, 
+         order = "hclust",
+         method = "pie",
+         addCoefasPercent = TRUE)
+```
+
+* (b) Do there appear to be any outliers in the data? Are any predictors skewed?
+
+```{r outliers}
+ggplot(glassMelted, aes(x=variable, y=value)) + 
+  geom_boxplot() +
+  geom_boxplot(outlier.colour="blue", outlier.shape=16,
+               outlier.size=2, notch=FALSE) +
+  scale_fill_brewer(palette="Blues") +
+  facet_wrap(~variable, scales = "free") +
+  theme_classic()
+```
+
+```{r skewness}
+apply(glassSubset, 2, skewness)
+```
+
+* (c) Are there any relevant transformations of one or more predictors that might improve the classification model?

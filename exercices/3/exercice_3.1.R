@@ -20,6 +20,8 @@ plot1 <- ggplot(data=glassMelted, aes(glassMelted$value)) +
   xlab("predictor")
 
 print(plot1)
+# Highlly skewed: Mg, K, Ba, Fe
+# Skewed: 
 
 #plot2 <- densityplot(~value|variable,
 #            data = glassMelted,
