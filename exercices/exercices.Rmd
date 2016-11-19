@@ -28,7 +28,7 @@ data(Glass)
 str(Glass)
 ```
 
-* (a) Using visualizations, explore the predictor variables to understand their distributions as well as the relationships between predictors.
+a. Using visualizations, explore the predictor variables to understand their distributions as well as the relationships between predictors.
 
 The distributions:
 
@@ -55,7 +55,7 @@ corrplot(correlations,
          addCoefasPercent = TRUE)
 ```
 
-* (b) Do there appear to be any outliers in the data? Are any predictors skewed?
+b. Do there appear to be any outliers in the data? Are any predictors skewed?
 
 ```{r outliers}
 ggplot(glassMelted, aes(x=variable, y=value)) + 
@@ -71,4 +71,4 @@ ggplot(glassMelted, aes(x=variable, y=value)) +
 apply(glassSubset, 2, skewness)
 ```
 
-* (c) Are there any relevant transformations of one or more predictors that might improve the classification model?
+c. Are there any relevant transformations of one or more predictors that might improve the classification model?
